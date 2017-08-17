@@ -1,0 +1,8 @@
+SIGNIN_URL = 'http://games.espn.go.com/ffl/signin'
+STANDINGS_URL = 'http://games.espn.go.com/ffl/standings?leagueId={league}&seasonId={year}'
+SCOREBOARD_URL = 'http://games.espn.go.com/ffl/scoreboard?leagueId={league}&seasonId={year}'
+ROSTER_URL = 'http://games.espn.go.com/ffl/clubhouse?leagueId={league}&teamId={team}&seasonId={year}'
+FA_URL = 'http://games.espn.go.com/ffl/freeagency?leagueId={league}&seasonId={year}'
+SCORING_URL = 'http://games.espn.go.com/ffl/}eaders?leagueId={league}&teamId={team}&scoringPeriodId={period}'
+WAIVER_URL = 'http://games.espn.go.com/ffl/tools/waiverorder?leagueId={league}'
+PRACTICE = 'http://games.espn.com/ffl/clubhouse?leagueId=1141922&teamId=6&seasonId=2017'
