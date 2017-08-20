@@ -1,1 +1,1 @@
-worker: python start_scraping.py
+worker: python src/start_scraping.py
