@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from twilio.rest import Client
 from urllib.parse import urlparse
 
@@ -22,8 +23,11 @@ conn = psycopg2.connect(
 )
 
 def initiate_shame(league, year):
+    # Specify the path to the Chrome binary
+    chrome_options = Options()
+    chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
     # Fire up Chrome and go to ESPN's signin page
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get(SIGNIN_URL)
 
     # Wait for the iframe with the signin form to appear
