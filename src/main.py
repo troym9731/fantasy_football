@@ -25,7 +25,7 @@ conn = psycopg2.connect(
 def initiate_shame(league, year):
     # Specify the path to the Chrome binary
     chrome_options = Options()
-    chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
+    chrome_options.binary_location = os.environ['GOOGLE_CHROME']
     # Fire up Chrome and go to ESPN's signin page
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get(SIGNIN_URL)
