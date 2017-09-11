@@ -1,4 +1,4 @@
 from main import initiate_shame
 
-# Testing this
-initiate_shame(1141922, 2016)
+initiate_shame(1141922, 2017)
+initiate_shame(144768, 2017)
