@@ -60,6 +60,10 @@ def initiate_shame(league, year):
     page = session.get(SCOREBOARD_URL.format(league=league, year=year))
     soup = BeautifulSoup(page.content, 'html.parser')
 
+    # Get the league name
+    league_href = '/ffl/leagueoffice?leagueId={league}'.format(league=league)
+    league_name = soup.find(href=league_href).get_text()
+
     # Select the matchup rows
     score_rows = soup.select('.matchup tr')
 
@@ -86,6 +90,7 @@ def initiate_shame(league, year):
             from_=os.environ['TWILIO_PHONE_NUMBER'],
             media_url='https://media.giphy.com/media/vX9WcCiWwUF7G/giphy.gif',
             body=LOWEST_SCORE_MESSAGE.format(
+                league=league_name,
                 name=lowest_scorer['name'],
                 score=lowest_scorer['score']
             )
