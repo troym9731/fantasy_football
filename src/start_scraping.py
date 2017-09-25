@@ -1,4 +1,5 @@
-from main import initiate_shame
+from main import initiate_shame, obtain_session
 
-initiate_shame(1141922, 2017)
-initiate_shame(144768, 2017)
+session = obtain_session()
+initiate_shame(league=1141922, year=2017, session=session)
+initiate_shame(league=144768, year=2017, session=session)

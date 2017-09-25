@@ -22,40 +22,7 @@ conn = psycopg2.connect(
     port=url.port
 )
 
-def initiate_shame(league, year):
-    # Specify the path to the Chrome binary
-    chrome_options = Options()
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.binary_location = os.environ['GOOGLE_CHROME']
-    # Fire up Chrome and go to ESPN's signin page
-    driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.get(SIGNIN_URL)
-
-    # Wait for the iframe with the signin form to appear
-    WebDriverWait(driver, 1000).until(EC.presence_of_all_elements_located((By.XPATH,'(//iframe)')))
-    frame = driver.find_element_by_id('disneyid-iframe')
-
-    # Switch to the iframe
-    driver.switch_to_frame(frame)
-    time.sleep(2)
-
-    # Fill in the form and submit it
-    driver.find_element_by_xpath('(//input)[1]').send_keys(os.environ['ESPN_USERNAME'])
-    driver.find_element_by_xpath('(//input)[2]').send_keys(os.environ['PASSWORD'])
-    driver.find_element_by_class_name('btn-submit').click()
-    driver.switch_to_default_content()
-    time.sleep(4)
-
-    # Create a `request` session and update it with the cookies from Selenium
-    session = requests.session()
-    for cookie in driver.get_cookies():
-        c = {cookie['name']: cookie['value']}
-        session.cookies.update(c)
-
-    # Close Chrome
-    driver.quit()
-
+def initiate_shame(league, year, session):
     # Get the Scoreboard URL page
     page = session.get(SCOREBOARD_URL.format(league=league, year=year))
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -103,3 +70,39 @@ def score_hash(row):
         'name': row.find(class_='owners').get_text(),
         'score': float(row.find(class_='score').get_text())
     }
+
+def obtain_session():
+    # Specify the path to the Chrome binary
+    chrome_options = Options()
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.binary_location = os.environ['GOOGLE_CHROME']
+    # Fire up Chrome and go to ESPN's signin page
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.get(SIGNIN_URL)
+
+    # Wait for the iframe with the signin form to appear
+    WebDriverWait(driver, 1000).until(EC.presence_of_all_elements_located((By.XPATH,'(//iframe)')))
+    frame = driver.find_element_by_id('disneyid-iframe')
+
+    # Switch to the iframe
+    driver.switch_to_frame(frame)
+    time.sleep(2)
+
+    # Fill in the form and submit it
+    driver.find_element_by_xpath('(//input)[1]').send_keys(os.environ['ESPN_USERNAME'])
+    driver.find_element_by_xpath('(//input)[2]').send_keys(os.environ['PASSWORD'])
+    driver.find_element_by_class_name('btn-submit').click()
+    driver.switch_to_default_content()
+    time.sleep(4)
+
+    # Create a `request` session and update it with the cookies from Selenium
+    session = requests.session()
+    for cookie in driver.get_cookies():
+        c = {cookie['name']: cookie['value']}
+        session.cookies.update(c)
+
+    # Close Chrome
+    driver.quit()
+
+    return session
